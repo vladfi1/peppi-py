@@ -1,7 +1,7 @@
 [package]
 authors = ["melkor <hohav@fastmail.com>"]
 name = "peppi-py"
-version = "0.6.0"
+version = "0.6.1"
 edition = "2021"
 
 [lib]
@@ -9,11 +9,13 @@ name = "peppi_py"
 crate-type = ["cdylib"]
 
 [dependencies]
-arrow2 = "0.18"
-peppi = "2.0.0-alpha.3"
+arrow2 = "0.17"
+#peppi = "2.0.0-alpha.3"
+peppi = { git = "https://github.com/hohav/peppi.git", branch = "main"}
 pyo3 = { version = "0.20", features = ["abi3-py39", "extension-module"] }
 serde = "1.0"
 serde_json = "1.0"
+# chrono = "0.4.31" # needed because arrow2 uses chrono 0.4, which may be too old
 
 [profile.release]
 opt-level = 3
