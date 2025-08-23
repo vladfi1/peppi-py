@@ -1,4 +1,6 @@
 from dataclasses import dataclass
+from enum import IntEnum
+
 from pyarrow.lib import (
 	Int8Array, Int16Array, Int32Array, Int64Array,
 	UInt8Array, UInt16Array, UInt32Array, UInt64Array,
@@ -114,9 +116,20 @@ class PortData:
 	leader: Data
 	follower: Data | None = None
 
+class FodPlatform(IntEnum):
+	RIGHT = 0
+	LEFT = 1
+
+@dataclass(slots=True)
+class FodPlatformMove:
+	__repr__ = _repr
+	platform: FodPlatform
+	height: float
+
 @dataclass(slots=True)
 class Frame:
 	__repr__ = _repr
 	id: object
 	ports: tuple[PortData]
 	items: Item | None = None
+	fod_platforms: list[list[FodPlatformMove]] | None = None
