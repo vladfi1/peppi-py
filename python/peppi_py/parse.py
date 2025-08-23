@@ -5,6 +5,7 @@ import functools
 from inflection import underscore
 from enum import Enum
 from .frame import Data, Frame, PortData, Item
+from .frame import FodPlatform, FodPlatformMove
 
 T = typing.TypeVar('T')
 
@@ -126,7 +127,28 @@ def frames_from_sa(arrow_frames) -> typing.Optional[Frame]:
 	except KeyError:
 		pass
 
-	return Frame(arrow_frames.field('id'), tuple(ports), items)
+	# Extract FoD platforms if available
+	fod_platforms: list[list[FodPlatformMove]] | None = None
+	try:
+		fod_array = arrow_frames.field('fod_platform')
+		fod_platforms = []
+		for fod_list in fod_array:
+			moves_this_frame: list[FodPlatformMove] = []
+			for fod_scalar in fod_list:
+				moves_this_frame.append(FodPlatformMove(
+					FodPlatform(fod_scalar['platform'].as_py()),
+					fod_scalar['height'].as_py()
+				))
+			fod_platforms.append(moves_this_frame)
+	except KeyError:
+		pass
+
+	return Frame(
+		id=arrow_frames.field('id'),
+		ports=tuple(ports),
+		items=items,
+		fod_platforms=fod_platforms
+	)
 
 def field_from_json(cls, json):
 	if json is None:

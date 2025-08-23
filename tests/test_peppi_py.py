@@ -108,5 +108,12 @@ def test_items_support():
 	assert len(item_types) == 1
 	assert item_types[99] == 513
 
+def test_fod_platforms():
+	# Version 3.18 with FoD platform data
+	game = read_slippi(Path(__file__).parent.joinpath('data/fod.slp').as_posix())
+
+	total_fod_events = sum(map(len, game.frames.fod_platforms))
+	assert total_fod_events == 99
+
 if __name__ == '__main__':
-	pytest.main([__file__])  # Uncomment to run with pytest
+	pytest.main([__file__])
