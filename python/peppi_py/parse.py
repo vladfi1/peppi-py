@@ -106,9 +106,36 @@ class RollbackMode(Enum):
 	FIRST = 'first'  # Only the first frame, as seen by the player
 	LAST = 'last'  # Only the finalized frames; the "true" frame sequence.
 
-def frames_from_sa(arrow_frames) -> typing.Optional[Frame]:
+def frames_from_sa(
+		arrow_frames,
+		rollback_mode: RollbackMode = RollbackMode.ALL,
+) -> typing.Optional[Frame]:
 	if arrow_frames is None:
 		return None
+
+	# Handle rollback mode
+	if rollback_mode is RollbackMode.FIRST:
+		index = arrow_frames.field('id').to_numpy()
+		first_indices = []
+		next_idx = index[0]
+		assert next_idx == -123
+		for i, idx in enumerate(index):
+			if idx == next_idx:
+				first_indices.append(i)
+				next_idx += 1
+		arrow_frames = arrow_frames.take(first_indices)
+	elif rollback_mode is RollbackMode.LAST:
+		index = arrow_frames.field('id').to_numpy()
+		next_idx = index[-1]
+		last_indices = []
+		for i, idx in reversed(list(enumerate(index))):
+			if idx == next_idx:
+				last_indices.append(i)
+				next_idx -= 1
+		assert next_idx == -124
+		last_indices.reverse()
+		arrow_frames = arrow_frames.take(last_indices)
+
 	ports = []
 	port_arrays = arrow_frames.field('ports')
 	for p in ('P1', 'P2', 'P3', 'P4'):
