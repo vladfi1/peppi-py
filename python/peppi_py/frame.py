@@ -123,8 +123,8 @@ class FodPlatform(IntEnum):
 @dataclass(slots=True)
 class FodPlatformMove:
 	__repr__ = _repr
-	platform: FodPlatform
-	height: float
+	platform: ListArray
+	height: ListArray
 
 @dataclass(slots=True)
 class Frame:
@@ -132,4 +132,4 @@ class Frame:
 	id: object
 	ports: tuple[PortData]
 	items: Item | None = None
-	fod_platforms: list[list[FodPlatformMove]] | None = None
+	fod_platforms: FodPlatformMove | None = None

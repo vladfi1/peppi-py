@@ -155,18 +155,10 @@ def frames_from_sa(
 		pass
 
 	# Extract FoD platforms if available
-	fod_platforms: list[list[FodPlatformMove]] | None = None
+	fod_platforms: FodPlatformMove | None = None
 	try:
-		fod_array = arrow_frames.field('fod_platform')
-		fod_platforms = []
-		for fod_list in fod_array:
-			moves_this_frame: list[FodPlatformMove] = []
-			for fod_scalar in fod_list:
-				moves_this_frame.append(FodPlatformMove(
-					FodPlatform(fod_scalar['platform'].as_py()),
-					fod_scalar['height'].as_py()
-				))
-			fod_platforms.append(moves_this_frame)
+		fod_platform_array = arrow_frames.field('fod_platform')
+		fod_platforms = dc_from_la(FodPlatformMove, fod_platform_array)
 	except KeyError:
 		pass
 

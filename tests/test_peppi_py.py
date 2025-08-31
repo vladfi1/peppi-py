@@ -112,7 +112,9 @@ def test_fod_platforms():
 	# Version 3.18 with FoD platform data
 	game = read_slippi(Path(__file__).parent.joinpath('data/fod.slp').as_posix())
 
-	total_fod_events = sum(map(len, game.frames.fod_platforms))
+	total_fod_events = (
+			len(game.frames.fod_platforms.platform.values)
+			if game.frames.fod_platforms else 0)
 	assert total_fod_events == 99
 
 if __name__ == '__main__':
