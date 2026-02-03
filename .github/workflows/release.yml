@@ -73,23 +73,13 @@ jobs:
         with:
           pattern: wheels-*
           merge-multiple: true
-      - name: Build index
-        run: |
-          mkdir -p index/peppi-py
-          cp *.whl *.tar.gz index/peppi-py/ 2>/dev/null || true
-          echo '<!DOCTYPE html><html><body>' > index/index.html
-          echo '<a href="peppi-py/">peppi-py</a>' >> index/index.html
-          echo '</body></html>' >> index/index.html
-          cd index/peppi-py
-          echo '<!DOCTYPE html><html><body>' > index.html
-          for f in *; do
-            [ "$f" = "index.html" ] && continue
-            echo "<a href=\"$f\">$f</a>" >> index.html
-          done
-          echo '</body></html>' >> index.html
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+      - uses: actions/setup-python@v5
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: index
-          keep_files: true
+          python-version: '3.10'
+      - name: Publish to PyPI
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+        run: |
+          pip install --upgrade twine
+          twine upload --skip-existing *

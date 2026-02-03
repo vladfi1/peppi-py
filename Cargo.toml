@@ -1,6 +1,6 @@
 [package]
 authors = ["melkor <hohav@fastmail.com>", "Vlad Firoiu <vladfi2@gmail.com>"]
-name = "peppi-py"
+name = "peppi-py-vladfi"
 version = "0.9.0"
 edition = "2024"
 

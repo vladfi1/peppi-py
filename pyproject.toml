@@ -1,5 +1,5 @@
 [project]
-name = "peppi-py"
+name = "peppi-py-vladfi"
 dynamic = ["version"]
 requires-python = ">= 3.10"
 dependencies = [
