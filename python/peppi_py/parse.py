@@ -115,7 +115,7 @@ def frames_from_sa(
 
 	# Handle rollback mode
 	if rollback_mode is RollbackMode.FIRST:
-		index = arrow_frames.field('id').to_numpy()
+		index = arrow_frames.field('id').tolist()
 		first_indices = []
 		next_idx = index[0]
 		assert next_idx == -123
@@ -125,7 +125,7 @@ def frames_from_sa(
 				next_idx += 1
 		arrow_frames = arrow_frames.take(first_indices)
 	elif rollback_mode is RollbackMode.LAST:
-		index = arrow_frames.field('id').to_numpy()
+		index = arrow_frames.field('id').tolist()
 		next_idx = index[-1]
 		last_indices = []
 		for i, idx in reversed(list(enumerate(index))):

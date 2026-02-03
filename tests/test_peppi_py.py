@@ -102,7 +102,7 @@ def test_items_support():
 	assert game.frames is not None
 	assert game.frames.items is not None
 
-	item_types = Counter(game.frames.items.type.values.to_numpy())
+	item_types = Counter(game.frames.items.type.values.tolist())
 
 	# Peach turnip appears on 513 frames.
 	assert len(item_types) == 1
