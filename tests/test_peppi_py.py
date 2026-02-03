@@ -88,6 +88,7 @@ def test_basic_game():
 		players=None,
 	)
 
+	assert game.frames is not None
 	assert len(game.frames.id) == 5209
 	p1 = game.frames.ports[0].leader.pre
 	p2 = game.frames.ports[1].leader.pre
@@ -112,10 +113,9 @@ def test_fod_platforms():
 	# Version 3.18 with FoD platform data
 	game = read_slippi(Path(__file__).parent.joinpath('data/fod.slp').as_posix())
 
-	total_fod_events = (
-			len(game.frames.fod_platforms.platform.values)
-			if game.frames.fod_platforms else 0)
-	assert total_fod_events == 99
+	assert game.frames is not None
+	assert game.frames.fod_platforms is not None
+	assert len(game.frames.fod_platforms.platform.values) == 99
 
 if __name__ == '__main__':
 	pytest.main([__file__])
