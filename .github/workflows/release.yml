@@ -1,7 +1,8 @@
 name: Python
 on:
-  release:
-    types: [prereleased]
+  push:
+    tags:
+      - 'v*'
 jobs:
   macos:
     runs-on: macos-latest
