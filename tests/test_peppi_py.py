@@ -117,5 +117,10 @@ def test_fod_platforms():
 	assert game.frames.fod_platforms is not None
 	assert len(game.frames.fod_platforms.platform.values) == 99
 
+def test_multiple_gecko_codes():
+	# Spectator replays sometimes have multiple Gecko code events
+	with pytest.raises(OSError, match='invalid data: Multiple Gecko List events found. This is not supported.'):
+		read_slippi(Path(__file__).parent.joinpath('data/multi_gecko_list.slp').as_posix())
+
 if __name__ == '__main__':
 	pytest.main([__file__])
