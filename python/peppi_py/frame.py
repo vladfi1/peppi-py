@@ -130,6 +130,6 @@ class FodPlatformMove:
 class Frame:
 	__repr__ = _repr
 	id: object
-	ports: tuple[PortData]
+	ports: tuple[PortData, ...]
 	items: Item | None = None
 	fod_platforms: FodPlatformMove | None = None
