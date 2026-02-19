@@ -15,5 +15,5 @@ requires = ["maturin>=1.0,<2.0", "pyarrow~=21.0"]
 python-source = "python"
 module-name = "peppi_py._peppi"
 
-[pytest]
-testpaths = "tests"
+[tool.pytest.ini_options]
+testpaths = ["tests"]
