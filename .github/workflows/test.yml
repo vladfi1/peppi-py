@@ -16,14 +16,8 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - uses: dtolnay/rust-toolchain@stable
-      - name: Build and install
-        uses: PyO3/maturin-action@v1
-        with:
-          manylinux: auto
-          args: --release --out dist
       - name: Install and test
         shell: bash
         run: |
-          pip install dist/peppi_py-*.whl --force-reinstall
-          pip install pytest
+          pip install . pytest
           pytest tests/
