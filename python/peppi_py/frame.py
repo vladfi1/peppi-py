@@ -127,9 +127,19 @@ class FodPlatformMove:
 	height: ListArray
 
 @dataclass(slots=True)
+class StadiumTransformation:
+	__repr__ = _repr
+	# subevent: 2=Initialize, 3=On monitor, 4=Previous receding, 5=New rising,
+	# 6=Finalize, 0=Finished
+	event: ListArray
+	# transformation: 3=Fire, 4=Grass, 5=Normal, 6=Rock, 9=Water
+	type: ListArray
+
+@dataclass(slots=True)
 class Frame:
 	__repr__ = _repr
 	id: object
 	ports: tuple[PortData, ...]
 	items: Item | None = None
 	fod_platforms: FodPlatformMove | None = None
+	stadium_transformation: StadiumTransformation | None = None

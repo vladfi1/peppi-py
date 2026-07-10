@@ -5,7 +5,7 @@ import functools
 from inflection import underscore
 from enum import Enum
 from .frame import Data, Frame, PortData, Item
-from .frame import FodPlatform, FodPlatformMove
+from .frame import FodPlatform, FodPlatformMove, StadiumTransformation
 
 T = typing.TypeVar('T')
 
@@ -162,11 +162,20 @@ def frames_from_sa(
 	except KeyError:
 		pass
 
+	# Extract Pokemon Stadium transformations if available (>= 3.18)
+	stadium_transformation: StadiumTransformation | None = None
+	try:
+		stadium_array = arrow_frames.field('stadium_transformation')
+		stadium_transformation = dc_from_la(StadiumTransformation, stadium_array)
+	except KeyError:
+		pass
+
 	return Frame(
 		id=arrow_frames.field('id'),
 		ports=tuple(ports),
 		items=items,
-		fod_platforms=fod_platforms
+		fod_platforms=fod_platforms,
+		stadium_transformation=stadium_transformation,
 	)
 
 def field_from_json(cls, json):
