@@ -3,6 +3,7 @@ authors = ["melkor <hohav@fastmail.com>", "Vlad Firoiu <vladfi2@gmail.com>"]
 name = "peppi-py-vladfi"
 version = "0.9.2"
 edition = "2024"
+license = "MIT"
 
 [lib]
 name = "peppi_py"
